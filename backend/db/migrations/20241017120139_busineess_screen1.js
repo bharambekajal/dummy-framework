@@ -7,6 +7,7 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('field1', 255).notNullable();
         table.string('field2', 255).notNullable();
+        table.bigInteger('number').notNullable().unique();
         table.string('email', 255).notNullable().unique();
         table.timestamp('created_at').defaultTo(knex.fn.now());
     });

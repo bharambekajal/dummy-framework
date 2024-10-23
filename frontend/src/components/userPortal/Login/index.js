@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import "../../assets/style/LoginPage.css";
+import "../../../assets/style/Login.css";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -13,29 +13,28 @@ const Login = () => {
     e.preventDefault();
     setError(''); 
 
-    if (username === '' || password === '') {
+    if (email === '' || password === '') {
       setError('Both fields are required!');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8087/api/auth/login', {
-        username,
+      const response = await axios.post('http://localhost:8087/api/user/login', {
+        email,
         password,
       }
       );
-
       
       if (response.status === 200) {
-        const { user, auth } = response.data;  
+        const { user, user_token } = response.data;  
 
         if(!user) throw new Error('User is not register with the given cred');
 
         localStorage.setItem('user', JSON.stringify(user)); 
-        localStorage.setItem('token', auth);
+        localStorage.setItem('user_token', user_token);
 
         console.log('Login successful:', response.data);
-        navigate('/dashboard');
+        navigate(`/user/profile/${user.id}`);
       }
     } catch (err) {
       console.log('Login error:', err);
@@ -50,12 +49,12 @@ const Login = () => {
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleLogin}>
         <div className="input-group">
-          <label>Username:</label>
+          <label>Email:</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="Enter your Username"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your Email"
           />
         </div>
 
@@ -68,9 +67,11 @@ const Login = () => {
             placeholder="Enter your Password"
           />
         </div>
-
 <div>
         <button type="submit">Login</button>
+        <p>Already have account
+          <br></br>
+          <Link to ="/forgot-password">Forgot Password</Link></p>
 </div>
       </form>
     </div>

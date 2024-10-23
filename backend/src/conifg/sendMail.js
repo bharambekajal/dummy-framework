@@ -17,12 +17,13 @@ const sendLink = async (email, link) => {
   const mailOptions = {
     from: "kajal.bharambe@ksolves.com",
     to: email,
-    subject: 'Registration Link',
+    subject: 'reset Link',
     html: `<p>Click <a href="${link}" target="_blank" rel="noopener noreferrer">
               here
             </a> to complete your registration.</p>`,
+    
   };
-
+  
   try {
     await transporter.sendMail(mailOptions);
     console.log('Email sent successfully with link:', link);
@@ -30,7 +31,6 @@ const sendLink = async (email, link) => {
     console.error('Error sending email:', error);
   }
 };
-
 
 module.exports = { sendLink };
 

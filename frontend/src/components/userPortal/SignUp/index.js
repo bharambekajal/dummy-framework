@@ -1,16 +1,17 @@
 // components/RegistrationPage.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import '../../assets/style/RegistrationPage.css'; // Import the CSS
+import '../../..//assets/style/SignUp.css'; // Import the CSS
 
-function RegistrationPage() {
+function SignUp() {
   const { userId } = useParams(); // Get userId from URL
-  const [userData, setUserData] = useState({ field1: '', field2: '',email: '' });
+  const [userData, setUserData] = useState({ field1: '', field2: '',number: '',email: '' });
+  const [field3, setField3] = useState('');
+//  const [field4, setField4] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -38,6 +39,7 @@ function RegistrationPage() {
     try {
       const {data, status} = await axios.post('http://localhost:8087/api/user/register', {
         ...userData,
+        field3,
         password,
         confirmPassword
       });
@@ -46,16 +48,32 @@ function RegistrationPage() {
       console.log('status', status)
       console.log('user_token', data.data.token)
 
-    if (status === 201) {
-       alert(`Please check the mail`)
-      localStorage.setItem('user_token', data.data.token);
-    }
-
+      if (status === 201) {
+        // alert(`Email is sent to ${email}`);
+        localStorage.setItem('user_token', data.data.token);
+        resetForm();
+      } else {
+        alert('Failed to save data');
+      }
     } catch (error) {
-      console.error('Error submitting registration:', error);
-      setError('Registration failed. Please try again.');
+      if (error.response && error.response.status === 409) {
+        alert('Email already exists');
+      }
     }
   };
+  const resetForm = () => {
+    setUserData((prevData) => ({
+      ...prevData,  // Keep the email unchanged
+      field1: '',
+      field2: '',
+      number: '',
+    }));
+    setField3('');
+    setPassword('');
+    setConfirmPassword('');
+    setError('');  // Reset error message
+  };
+  
 
   return (
     <div className="registration-container">
@@ -80,6 +98,38 @@ function RegistrationPage() {
             className="input-field"
           />
         </div>
+
+        <div className="input-group">
+          <label>Number :</label>
+          <input
+            type="text"
+            value={userData.number || ''}
+            onChange={(e) => setUserData({ ...userData, number: e.target.value })}
+            className="input-field"
+          />
+        </div>
+    
+         <div className="input-group">
+          <label>Field 3:</label>
+          <input
+            type="text"
+            value={field3}
+            onChange={(e) => setField3(e.target.value)}
+            required
+            className="input-field"
+          />
+        </div>
+{/* 
+        <div className="input-group">
+          <label>Field 4:</label>
+          <input
+            type="text"
+            value={field4}
+            onChange={(e) => setField4(e.target.value)}
+            required
+            className="input-field"
+          />
+        </div> */}
 
         <div className="input-group">
           <label>Email:</label>
@@ -116,10 +166,15 @@ function RegistrationPage() {
 
         {error && <div className="error-text">{error}</div>}
 
-        <button type="submit" className="submit-button">Submit</button>
+        <div className="button-group">
+          <button type="submit" className="submit-button">Submit</button>
+          <button type="button" className="reset-button" onClick={resetForm}>
+            Reset
+          </button>
+          </div>
       </form>
     </div>
   );
 }
 
-export default RegistrationPage;
+export default SignUp;

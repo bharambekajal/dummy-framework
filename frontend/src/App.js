@@ -1,38 +1,51 @@
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
 import { createBrowserRouter } from 'react-router-dom';
-import AdminLogin from './components/adminPortal/Login';
-import UserLogin from './components/userPortal/Login';
-import BusinessScreen1 from './components/adminPortal/BusinessScreen1';
-import BusinessScreen2 from './components/adminPortal/BusinessScreen2';
-import BusinessScreen3 from './components/adminPortal/BusinessScreen3';
-import Dashboard from './components/adminPortal/Dashboard';
+import { ForgotPassword,UserLogin,Signup,Profile, ResetPassword} from './components/userPortal/index';
+import { Dashboard,Login,ClientData,SearchUser} from './components/AdminPortal/index';
 import ProtectedRoute from './components/ProtectedRoute';
-import RegistrationPage from './components/userPortal/RegistrationPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminLogin from './views/AdminLogin';
+import { ROUTES } from './constants/routePaths';
+
 
 const router = createBrowserRouter([
   {
-    path: "/admin/login",
-    element: <AdminLogin />,
+    path: ROUTES.HOME,
+    element: <AdminLogin/>
+  },{
+    path: ROUTES.ADMIN.LOGIN,
+    element: < Login/>
   },
   {
-    path: "/admin/dashboard",
+    path: ROUTES.ADMIN.DASHBOARD,
     element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
     children: [
-      { path: "business1", element: <BusinessScreen1 /> },
-      { path: "business2", element: <BusinessScreen2 /> },
-      { path: "business3", element: <BusinessScreen3 /> },
+      { path: ROUTES.ADMIN.CLIENTFORM, element: <ClientData /> },
+      { path: ROUTES.ADMIN.CLIENTLIST, element: <SearchUser /> }
     ],
-
   },
   {
-    path: '/register/:userId',
-    element: <RegistrationPage /> 
-    },
-    {
-      path: '/user/login/:userId',
-      element: <UserLogin /> 
-      }
+    path: ROUTES.USER.SIGNUP,
+    element: <Signup /> 
+  },
+  {
+    path: ROUTES.USER.LOGIN,
+    element: <UserLogin /> 
+  },
+  {
+    path: ROUTES.USER.PROFILE,
+    element:<Profile />
+  },
+  {
+    path: ROUTES.USER.FORGOT_PASSWORD,
+    element: <ForgotPassword /> 
+  },
+  {
+    path: ROUTES.USER.RESET_PASSWORD,
+    element: <ResetPassword /> 
+  },
+
 ]);
 
 function App() {

@@ -17,7 +17,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post',verifyToken, businessScreenRoutes);
 
 app.use('/api/user', userRegister)
-
 app.listen( process.env.PORT,()=>{
     console.log("App listening to port " ,process.env.PORT)
 })

@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import "../../assets/style/LoginPage.css";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import "../../../assets/style/Login.css";
 
-const Login = () => {
+
+import axios from 'axios';
+import {useNavigate } from 'react-router-dom';
+
+const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error,setError] =useState('');
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(''); 
 
-    if (email === '' || password === '') {
-      setError('Both fields are required!');
+    if (email === '') {
+      setError('email is required!');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8087/api/user/login', {
-        email,
-        password,
+      const response = await axios.post('http://localhost:8087/api/user/forgot-password', {
+        email
       }
       );
       
@@ -34,6 +35,7 @@ const Login = () => {
         localStorage.setItem('user_token', user_token);
 
         console.log('Login successful:', response.data);
+        navigate(`/user/profile/${user.id}`);
       }
     } catch (err) {
       console.log('Login error:', err);
@@ -44,7 +46,7 @@ const Login = () => {
   return (
     <div className='main-container'>
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Forgot Password</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleLogin}>
         <div className="input-group">
@@ -57,7 +59,7 @@ const Login = () => {
           />
         </div>
 
-        <div className="input-group">
+        {/* <div className="input-group">
           <label>Password:</label>
           <input
             type="password"
@@ -65,10 +67,13 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your Password"
           />
-        </div>
+        </div> */}
 
 <div>
         <button type="submit">Login</button>
+        {/* <p>Already have account
+          <br></br>
+          <Link to ="forgot-password">Forgot Password</Link></p> */}
 </div>
       </form>
     </div>
@@ -76,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

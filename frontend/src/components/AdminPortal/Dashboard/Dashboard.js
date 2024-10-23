@@ -1,7 +1,7 @@
 // Dashboard.js
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import '../../assets/style/DashBoard.css'; // Import CSS
+import '../../../assets/style/DashBoard.css'; // Import CSS
 
 function Dashboard() {
   return (
@@ -9,9 +9,8 @@ function Dashboard() {
       <aside className="sidebar">
         <h3 className="sidebar-title">Business Screens</h3>
         <nav className="dashboard-nav">
-          <Link to="business1" className="nav-link">Business Screen 1</Link>
-          <Link to="business2" className="nav-link">Business Screen 2</Link>
-          <Link to="business3" className="nav-link">Business Screen 3</Link>
+          <Link to="client_form" className="nav-link">Client Form</Link>
+          <Link to="client_list" className="nav-link">Client List</Link>
         </nav>
       </aside>
 
