@@ -1,5 +1,7 @@
+
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const emailTemplates = require('../constants/emailTemplates.js');
 
 dotenv.config();
 
@@ -13,24 +15,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendLink = async (email, link) => {
-  const mailOptions = {
+const sendLink = async (email,templateName, link) => {
+
+  const template = emailTemplates[templateName];
+
+  if (!template) {
+    throw new Error(`Email template ${templateName} does not exist`);
+  }
+ const mailOptions = {
     from: "kajal.bharambe@ksolves.com",
     to: email,
-    subject: 'reset Link',
-    html: `<p>Click <a href="${link}" target="_blank" rel="noopener noreferrer">
-              here
-            </a> to complete your registration.</p>`,
-    
+    subject: template.subject,
+    html: template.htmlContent(link),
   };
-  
+
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully with link:', link);
+    console.log('Email sent successfully:', template.subject);
   } catch (error) {
     console.error('Error sending email:', error);
   }
 };
 
 module.exports = { sendLink };
-

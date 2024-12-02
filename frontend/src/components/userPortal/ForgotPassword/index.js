@@ -1,82 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../../../assets/style/Login.css";
-
-
-import axios from 'axios';
-import {useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [error,setError] =useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); 
+    setError("");
 
-    if (email === '') {
-      setError('email is required!');
+    if (email === "") {
+      toast.error("Email is required!");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8087/api/user/forgot-password', {
-        email
-      }
+      const response = await axios.post(
+        "http://localhost:8087/api/user/forgot-password",
+        { email }
       );
-      
+
+      if (response.status === 404) {
+        toast.error("User is not registered with the given credentials");
+        return;
+      }
+
       if (response.status === 200) {
-        const { user, user_token } = response.data;  
+        toast.success("Reset email sent",{
+          position: "top-center",
+        },)
+        const { user, user_token } = response.data;
 
-        if(!user) throw new Error('User is not register with the given cred');
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user_token", user_token);
 
-        localStorage.setItem('user', JSON.stringify(user)); 
-        localStorage.setItem('user_token', user_token);
-
-        console.log('Login successful:', response.data);
         navigate(`/user/profile/${user.id}`);
       }
     } catch (err) {
-      console.log('Login error:', err);
-      if(err.status === 401) setError('Invalid credentials');
+      console.log("Login error:", err);
+      if (err.response && err.response.status === 404) {
+        toast.error("Email not registered",{position:"top-center"});
+      } 
     }
   };
 
   return (
-    <div className='main-container'>
-    <div className="login-container">
-      <h2>Forgot Password</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <label>Email:</label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your Email"
-          />
-        </div>
+    <div className="main-container">
+      <div className="forgot-password-container">
+        <h2>Forgot Password</h2>
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your Email"
+            />
+          </div>
 
-        {/* <div className="input-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your Password"
-          />
-        </div> */}
-
-<div>
-        <button type="submit">Login</button>
-        {/* <p>Already have account
-          <br></br>
-          <Link to ="forgot-password">Forgot Password</Link></p> */}
-</div>
-      </form>
-    </div>
+          <div>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

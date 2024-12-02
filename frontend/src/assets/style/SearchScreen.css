@@ -1,31 +1,37 @@
 /* Full-height background to center the navbar content */
 
-  
-  .navbar {
-    width :100%;
-    padding: 1 rem 0;
-  }
-  /* Navbar styling */
-  .navbar {
-    width: 100%;
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Search form styling */
-  .search-form input {
-    width: 500px;  
-    height: 45px; 
-    border-radius: 25px;
-    border: 1px solid #ddd;
-    padding: 0.5rem 1rem;
-  }
-  
-  .search-button {
-    height: 35px;
-    width: 100px;   
-    padding: 0 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-  }
-  
+.navbar {
+  width: 100%;
+  padding: 1 rem 0;
+}
+/* Navbar styling */
+.navbar {
+  width: 100%;
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-form input {
+  width: 500px;
+  height: 45px;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+}
+
+.search-button {
+  height: 45px;
+  width: 100px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  border: none; /* Remove border */
+  outline: none; /* Remove outline on focus */
+  margin-left: 15px;
+  background-color: #97c3d4;
+}
+.form-select me-0 {
+  margin: 95px;
+}
+
+.container {
+  margin-top: 3rem;
+}

@@ -1,35 +1,34 @@
-// Dashboard.js
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import '../../../assets/style/DashBoard.css'; // Import CSS
+import { React } from "react";
+import "../../../assets/style/DashBoard.css";
+import DropDownProfile from "./DropDownProfile";
+import { Outlet, Link } from "react-router-dom";  // Import Link
+import Sidebar from "./Sidebar";
 
-function Dashboard() {
+const Dashboard = () => {
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
-        <h3 className="sidebar-title">Business Screens</h3>
-        <nav className="dashboard-nav">
-          <Link to="client_form" className="nav-link">Client Form</Link>
-          <Link to="client_list" className="nav-link">Client List</Link>
-        </nav>
-      </aside>
+      <nav className="navbar">
+        <div className="logoo">
+          <img src="/logo" alt="Logo" className="logo-img" />
+          <h2>Company Name</h2>
 
-      <main className="main-content">
-        <header className="dashboard-header">
-          <h2 className="dashboard-title">Welcome</h2>
-          <div className="header-right">
-            <span className="footer-item">Notifications</span>
-            <span className="divider">|</span>
-            <span className="footer-item">Profile</span>
-          </div>
-        </header>
-
-        <div className="content-area">
+          <DropDownProfile />
+        </div>
+        {/* Adding the "View Drafts" link to the navbar */}
+        <div className="navbar-links">
+          <Link to="drafts" className="navbar-link">
+            View Drafts
+          </Link>
+        </div>
+      </nav>
+      <div className="sidebar-container">
+        <Sidebar />
+        <div className="outlet-area">
           <Outlet />
         </div>
-      </main>
+      </div>
     </div>
   );
-}
+};
 
 export default Dashboard;

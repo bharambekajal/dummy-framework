@@ -1,60 +1,156 @@
-/* BusinessScreen1.css */
-.business-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #f0f4f8;
-    height: 77vh;
-  }
-  
-  .title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    gap: 15px;
-  }
-  
-  .input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .input-field:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .submit-button, .reset-button {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    color: white;
-  }
-  
-  .submit-button {
-    background-color: #4CAF50;
-  }
-  
-  .reset-button {
-    background-color: #f44336;
-  }
-  
-  .error-text {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 4px;
-  }
+.login-user-container {
+  /* padding: 50px; */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Slightly reduce shadow */
+  width: 1000px; /* Set form size */
+  text-align: center;
+  background-color: transparent;
+  margin: 0 auto;
+  width: 500px;
+  /* margin-top: 110px; */
+
+}
+h2 {
+  color: #555;
+}
+
+.submit-button {
+  background-color: #97c3d4;
+}
+.draft-button{
+  background-color: #97c3d4;
+}
+
+.reset-button {
+  background-color: #bebebe;
+  margin-top: 1px;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: flex-start; /* Align form and image closer */
+  align-items: center;
+  background-color: transparent;
+  margin-top: 0;
+  height: 100%;
+}
+
+.login-container {
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Slightly reduce shadow */
+  width: 1000px; /* Set form size */
+  text-align: center;
+  background-color: transparent;
+}
+
+h2 {
+  font-family: Arial, sans-serif;
+  font-size: 22px; /* Adjust heading size */
+  color: #333;
+  margin-bottom: 25px; /* Less margin */
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 16px;
+  color: #555;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: rgb(226, 241, 247);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #97c3d4;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.forgot-password-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #008cba;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.register-container {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-container a {
+  color: #008cba;
+  text-decoration: none;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.logo img {
+  max-width: 140px; /* Adjust logo size */
+}
+
+.Toastify__close-button {
+  width: 25px;
+}
+
+.forgot-password-container {
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Slightly reduce shadow */
+  width: 1000px; /* Set form size */
+  text-align: center;
+  background-color: transparent;
+  margin-left: 645px;
+  width: 550px;
+  margin-top: 300px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Adds space between buttons */
+}

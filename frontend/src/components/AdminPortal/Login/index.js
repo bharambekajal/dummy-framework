@@ -1,82 +1,108 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../../../assets/style/Login.css";
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [username, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); 
 
-    if (username === '' || password === '') {
-      setError('Both fields are required!');
+    if(email === '' && password === ''){
+      toast.error("Email & Password is required!", { position: "top-center" });
+      return;
+    }
+
+    if (email === "") {
+      toast.error("Email is required!", { position: "top-center" });
+      return;
+    }
+
+    if (password === "") {
+      toast.error("Password is required!", { position: "top-center" });
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8087/api/auth/login', {
-        username,
-        password,
-      }
+      const response = await axios.post(
+        "http://localhost:8087/api/admin/login",
+        {
+          email,
+          password,
+        }
       );
 
-      
-      if (response.status === 200) {
-        const { user, auth } = response.data;  
+      if (response.status === 201) {
+        const { user, token } = response.data.data;
 
-        if(!user) throw new Error('User is not register with the given cred');
+        if (!user)
+          throw new Error("User is not registered with the given credentials");
+        if (!token) throw new Error("Incorrect password");
 
-        localStorage.setItem('user', JSON.stringify(user)); 
-        localStorage.setItem('token', auth);
+        // Store user data and token in localStorage
+        localStorage.setItem("admin", JSON.stringify(user));
+        localStorage.setItem("admin_token", token);
 
-        console.log('Login successful:', response.data);
-        navigate('/admin/dashboard');
+        console.log("Login successful!");
+        // Navigate on successful login
+        navigate("/admin/dashboard/home");
       }
     } catch (err) {
-      console.log('Login error:', err);
-      if(err.status === 401) setError('Invalid credentials');
+      console.error("Login error:", err);
+      if (err.response?.status === 404) {
+        toast.error("No account found with this email!", {
+          position: "top-center",
+        });}
+        else if (err.response?.status === 401) {
+          toast.error("Invalid password", {
+            position: "top-center",
+          });
+      } else {
+        toast.error("Invalid credentials!", { position: "top-center" });
+      }
     }
   };
 
   return (
-    <div className='main-container'>
-    <div className="login-container">
-      <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="Enter your Username"
-          />
+    <div className="main-container">
+      <div className="login-container">
+        <div className="logo">
+          <img src="/path-to-your-logo" alt="Company Logo" />
         </div>
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label>Email Address:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Email Address"
+            />
+          </div>
 
-        <div className="input-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your Password"
-          />
-        </div>
+          <div className="input-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Password"
+            />
+          </div>
 
-<div>
-        <button type="submit">Login</button>
-        <p>Already have account
-          <br></br>
-          <Link to ="/forgot-password">Forgot Password</Link></p>
-</div>
-      </form>
-    </div>
+          <button type="submit">Login</button>
+
+          <Link to="/forgot-password" className="forgot-password-link">
+            Forgot Password?
+          </Link>
+        </form>
+      </div>
     </div>
   );
 };
